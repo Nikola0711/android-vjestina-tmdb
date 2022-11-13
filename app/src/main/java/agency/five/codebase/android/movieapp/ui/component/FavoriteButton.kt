@@ -34,11 +34,12 @@ fun FavoriteButton(
 
     )
 }
+
 @Preview(showBackground = true)
 @Composable
-        fun FavoriteButtonPreview(){
-            FavoriteButton()
-        }
+fun FavoriteButtonPreview() {
+    FavoriteButton()
+}
 
 
 

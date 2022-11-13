@@ -25,56 +25,54 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun UserScoreProgressBar(
-    modifier: Modifier=Modifier,
     score: Float,
-    radius: Dp=20.dp,
-    color: Color=Color.Green,
-    strokeWidth:Dp=5.dp,
-    animDuration: Int=1000,
-){
+    modifier: Modifier = Modifier,
+    radius: Dp = 20.dp,
+    color: Color = Color.Green,
+    strokeWidth: Dp = 5.dp,
+    animDuration: Int = 1000,
+) {
     val animationPlayed = remember { mutableStateOf(false) }
-    val curPercentage= animateFloatAsState(
-        targetValue = if(animationPlayed.value) score else 0f,
+    val curPercentage = animateFloatAsState(
+        targetValue = if (animationPlayed.value) score else 0f,
         animationSpec = tween(
             durationMillis = animDuration
         )
     )
-    LaunchedEffect(key1 = true){
-        animationPlayed.value=true
+    LaunchedEffect(key1 = true) {
+        animationPlayed.value = true
     }
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier.size(radius*2f)
-    ){
-        Canvas(modifier = modifier
-            .padding(5.dp)
-            .size(radius * 2f)){
+        modifier = modifier.size(radius * 2f)
+    ) {
+        Canvas(
+            modifier = modifier
+                .padding(5.dp)
+                .size(radius * 2f)
+        ) {
             drawArc(
-                color=color,
+                color = color,
                 startAngle = -90f,
                 sweepAngle = 360f,
                 useCenter = false,
-                style = Stroke(strokeWidth.toPx(), cap= StrokeCap.Round)
+                style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
             )
 
         }
         Text(
-            text = (score*10f).toString(),
-            color=Color.Black,
+            text = (score * 10f).toString(),
+            color = Color.Black,
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold
 
         )
     }
 
-    }
-@Preview(showBackground = true)
-@Composable
-fun UserScoreProgressBarPreview(){
-    UserScoreProgressBar(score = 0.9f)
 }
 
-
-
-
-
+@Preview(showBackground = true)
+@Composable
+fun UserScoreProgressBarPreview() {
+    UserScoreProgressBar(score = 0.9f)
+}

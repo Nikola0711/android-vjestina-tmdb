@@ -2,6 +2,7 @@ package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.R
 import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -14,12 +15,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
-sealed class MovieCategoryLabelTextViewState{
-    class InputText(val text: String): MovieCategoryLabelTextViewState()
-    class ResourceText(@StringRes val textRes: Int): MovieCategoryLabelTextViewState()
-
+sealed class MovieCategoryLabelTextViewState {
+    class InputText(val text: String) : MovieCategoryLabelTextViewState()
+    class ResourceText(@StringRes val textRes: Int) : MovieCategoryLabelTextViewState()
 }
+
 data class MovieCategoryLabelViewState(
     val itemId: Int,
     val isSelected: Boolean,
@@ -29,68 +29,69 @@ data class MovieCategoryLabelViewState(
 
 @Composable
 fun MovieCategoryLabel(
-    movieCategoryLabelViewState: MovieCategoryLabelViewState
-){
-    if(movieCategoryLabelViewState.isSelected){
-        SelectedText(movieCategoryLabelViewState)
-    }
-    else{
-        UnselectedText(movieCategoryLabelViewState)
-    }
-
-}
-
-@Composable
-fun SelectedText(
     movieCategoryLabelViewState: MovieCategoryLabelViewState,
-    modifier: Modifier=Modifier
-
-){
-    val categoryText=movieCategoryLabelViewState.categoryText
-    Column {
-        Text(
-            text =when(categoryText){
-                is MovieCategoryLabelTextViewState.InputText -> categoryText.text
-                is MovieCategoryLabelTextViewState.ResourceText -> stringResource(id = categoryText.textRes)
-            },
-            color = Color.Black,
-            fontWeight = FontWeight.Bold,
-            fontSize = 15.sp,
-        )
-        Spacer(modifier = modifier.size(5.dp))
-        Divider(color = Color.Black, thickness = 3.dp, modifier = modifier.fillMaxWidth())
-
-    }
-
-}
-
-@Composable
-fun UnselectedText(
-    movieCategoryLabelViewState: MovieCategoryLabelViewState,
-    modifier: Modifier=Modifier
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    val categoryText = movieCategoryLabelViewState.categoryText
-    Text(
-        text = when (categoryText) {
-            is MovieCategoryLabelTextViewState.InputText -> categoryText.text
-            is MovieCategoryLabelTextViewState.ResourceText -> stringResource(id = categoryText.textRes)
-        },
-        color=Color.Gray,
-        fontSize = 15.sp,
-
-
-
-    )
-
-
+    if (movieCategoryLabelViewState.isSelected) {
+        Column(
+            modifier = Modifier
+                .padding(5.dp)
+                .width(intrinsicSize = IntrinsicSize.Max)
+                .clickable(onClick = onClick)
+        ) {
+            Text(
+                text = selectTextSource(movieCategoryLabelViewState = movieCategoryLabelViewState),
+                color = Color.Black,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+            Spacer(
+                modifier = Modifier
+                    .size(6.dp)
+            )
+            Divider(
+                color = Color.Black,
+                thickness = 4.dp,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        }
+    } else {
+        Text(
+            text = selectTextSource(movieCategoryLabelViewState = movieCategoryLabelViewState),
+            color = Color.Gray,
+            fontSize = 16.sp,
+            modifier = modifier
+                .padding(5.dp)
+                .clickable(onClick = onClick)
+        )
+    }
 }
+
+@Composable
+fun selectTextSource(movieCategoryLabelViewState: MovieCategoryLabelViewState): String {
+    return when (val categoryText = movieCategoryLabelViewState.categoryText) {
+        is MovieCategoryLabelTextViewState.InputText -> categoryText.text
+        is MovieCategoryLabelTextViewState.ResourceText -> stringResource(id = categoryText.textRes)
+    }
+}
+
+fun onMovieCategoryLabelClick() {}
+
 @Preview
 @Composable
-fun MovieCategoryLabelPreview(){
-    val inputText=MovieCategoryLabelTextViewState.InputText("Movies")
-    val stringRes=MovieCategoryLabelTextViewState.ResourceText(R.string.app_name)
-    val viewState1= MovieCategoryLabelViewState(2,false, inputText)
-    val viewState2=MovieCategoryLabelViewState(1, true, stringRes)
-    MovieCategoryLabel(movieCategoryLabelViewState = viewState2)
-   
+fun MovieCategoryLabelPreview() {
+    val inputText = MovieCategoryLabelTextViewState.InputText("Movies")
+    val stringRes = MovieCategoryLabelTextViewState.ResourceText(R.string.app_name)
+    val categoryViewState1 = MovieCategoryLabelViewState(0, true, stringRes)
+    val categoryViewState2 = MovieCategoryLabelViewState(1, false, inputText)
+    Row {
+        MovieCategoryLabel(movieCategoryLabelViewState = categoryViewState1,
+            { onMovieCategoryLabelClick() })
+        MovieCategoryLabel(movieCategoryLabelViewState = categoryViewState2,
+            { onMovieCategoryLabelClick() })
+    }
 }

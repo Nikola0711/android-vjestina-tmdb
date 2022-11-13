@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 
-
 data class ActorCardViewState(
     val imageUrl: String?,
     val name: String,
@@ -24,32 +23,28 @@ data class ActorCardViewState(
 )
 
 @Composable
-
 fun ActorCard(
     actorCardViewState: ActorCardViewState,
-    modifier: Modifier = Modifier,
-){
+    modifier: Modifier
+) {
     Card(
-        modifier = modifier
-            .height(220.dp)
-            .width(145.dp)
-            .padding(5.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(15.dp),
         elevation = 5.dp,
 
-    ){
+        ) {
         Column {
             AsyncImage(
                 model = actorCardViewState.imageUrl,
                 contentDescription = actorCardViewState.name,
-                modifier = modifier
+                modifier = Modifier
                     .height(135.dp),
                 contentScale = ContentScale.Crop
 
-                )
+            )
             Text(
-                modifier=modifier
-                    .padding(start=10.dp, top=5.dp),
+                modifier = Modifier
+                    .padding(start = 10.dp, top = 5.dp),
 
                 text = actorCardViewState.character,
                 fontSize = 14.sp,
@@ -58,32 +53,36 @@ fun ActorCard(
             )
 
             Text(
-                modifier=modifier
-                    .padding(start = 10.dp, top= 5.dp),
+                modifier = Modifier
+                    .padding(start = 10.dp, top = 5.dp),
 
                 text = actorCardViewState.character,
                 fontSize = 12.sp,
-                color=Color.Gray
+                color = Color.Gray
             )
 
 
         }
 
-        }
-
     }
+
+}
+
 @Preview
 @Composable
-private fun ActorCardPreview(){
-    val actor=MoviesMock.getActor()
-    val actorCardViewState=ActorCardViewState(
+private fun ActorCardPreview() {
+    val actor = MoviesMock.getActor()
+    val actorCardViewState = ActorCardViewState(
         name = actor.name,
         imageUrl = actor.imageUrl,
         character = actor.character
     )
+    val actorCarModifier = Modifier
+        .height(220.dp)
+        .width(145.dp)
+        .padding(5.dp)
 
-    ActorCard(actorCardViewState = actorCardViewState)
-
+    ActorCard(actorCardViewState = actorCardViewState, modifier = actorCarModifier)
 }
 
 

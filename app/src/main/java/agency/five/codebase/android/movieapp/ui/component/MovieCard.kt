@@ -17,18 +17,18 @@ import coil.compose.AsyncImage
 
 @Composable
 fun MovieCard(
-    modifier: Modifier=Modifier,
+    modifier: Modifier = Modifier,
     movie: Movie,
-    onMovieClick: () -> Unit={}
-){
+    onMovieClick: () -> Unit = {}
+) {
     Card(
         modifier = modifier
             .clickable { onMovieClick() }
             .padding(10.dp)
             .size(8.dp),
-        shape= RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(10.dp),
         elevation = 5.dp
-    ){
+    ) {
         Box {
             AsyncImage(
                 model = movie.imageUrl,
@@ -45,11 +45,10 @@ fun MovieCard(
     }
 
 }
+
 @Preview
 @Composable
-fun MovieCardPreview(){
-    val movie=MoviesMock.getMoviesList()[0]
+fun MovieCardPreview() {
+    val movie = MoviesMock.getMoviesList()[0]
     MovieCard(movie = movie)
-
-
 }
