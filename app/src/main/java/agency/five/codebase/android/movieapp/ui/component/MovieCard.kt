@@ -2,10 +2,8 @@ package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.mock.MoviesMock
 import agency.five.codebase.android.movieapp.model.Movie
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
@@ -22,10 +20,6 @@ fun MovieCard(
     onMovieClick: () -> Unit = {}
 ) {
     Card(
-        modifier = modifier
-            .clickable { onMovieClick() }
-            .padding(10.dp)
-            .size(8.dp),
         shape = RoundedCornerShape(10.dp),
         elevation = 5.dp
     ) {
@@ -36,7 +30,7 @@ fun MovieCard(
                 contentScale = ContentScale.Crop
             )
             FavoriteButton(
-                modifier = modifier
+                modifier = Modifier
                     .padding(10.dp)
             )
         }
