@@ -1,7 +1,9 @@
 *.iml
 .gradle
 /local.properties
+/.idea
 /.idea/caches
+/.idea/inspectionProfiles/Project_Default.xml
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
@@ -18,3 +20,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+
